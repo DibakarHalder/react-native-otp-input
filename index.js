@@ -14,6 +14,7 @@ export default class OTPInputView extends Component {
         autoFocusOnLoad: PropTypes.bool,
         code: PropTypes.string,
         secureTextEntry: PropTypes.bool,
+        onFocus: PropTypes.func,
     }
 
     static defaultProps = {
@@ -188,6 +189,7 @@ export default class OTPInputView extends Component {
                     onKeyPress={({ nativeEvent: { key } }) => { this.handleKeyPressTextInput(index, key) }}
                     value={digits[index]}
                     keyboardType="number-pad"
+                    onFocus={onFocus}
                     textContentType= {isAutoFillSupported ? "oneTimeCode" : "none"}
                     key={index}
                     selectionColor="#00000000"
