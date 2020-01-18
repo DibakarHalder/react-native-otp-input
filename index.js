@@ -174,7 +174,7 @@ export default class OTPInputView extends Component {
     }
 
     renderOneInputField = ( _ , index ) => {
-        const { codeInputFieldStyle, codeInputHighlightStyle, secureTextEntry } = this.props
+        const { codeInputFieldStyle, codeInputHighlightStyle, secureTextEntry, onFocus } = this.props
         const { defaultTextFieldStyle } = styles
         const { selectedIndex, digits } = this.state
         return (
