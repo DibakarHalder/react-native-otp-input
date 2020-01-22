@@ -15,6 +15,7 @@ export default class OTPInputView extends Component {
         code: PropTypes.string,
         secureTextEntry: PropTypes.bool,
         onFocus: PropTypes.func,
+        keyboardType: PropTypes.string,
     }
 
     static defaultProps = {
@@ -23,7 +24,8 @@ export default class OTPInputView extends Component {
         codeInputHighlightStyle: null,
         onCodeFilled: null,
         autoFocusOnLoad: true,
-        secureTextEntry: false
+        secureTextEntry: false,
+        keyboardType: "number-pad"
     }
 
     fields = []
@@ -82,7 +84,7 @@ export default class OTPInputView extends Component {
     }
 
     handleKeyboardDidHide = () => {
-        this.blurAllFields() 
+        this.blurAllFields()
     }
 
     notifyCodeChanged = () => {
@@ -119,11 +121,11 @@ export default class OTPInputView extends Component {
         const newTextLength = text.length
         if (newTextLength - oldTextLength === pinCount) { // user pasted text in.
             newdigits = text.split("").slice(oldTextLength, newTextLength)
-            this.setState( {digits: newdigits }, this.notifyCodeChanged)
+            this.setState({ digits: newdigits }, this.notifyCodeChanged)
         } else {
             if (text.length === 0) {
                 if (newdigits.length > 0) {
-                    newdigits = newdigits.slice(0, newdigits.length-1)
+                    newdigits = newdigits.slice(0, newdigits.length - 1)
                 }
             } else {
                 text.split("").forEach((value) => {
@@ -149,7 +151,7 @@ export default class OTPInputView extends Component {
 
     handleKeyPressTextInput = (index, key) => {
         const digits = this.getDigits()
-        if(key === 'Backspace') {
+        if (key === 'Backspace') {
             if (!digits[index] && index > 0) {
                 this.handleChangeText(index - 1, '')
                 this.focusField(index - 1)
@@ -173,8 +175,8 @@ export default class OTPInputView extends Component {
         })
     }
 
-    renderOneInputField = ( _ , index ) => {
-        const { codeInputFieldStyle, codeInputHighlightStyle, secureTextEntry, onFocus } = this.props
+    renderOneInputField = (_, index) => {
+        const { codeInputFieldStyle, codeInputHighlightStyle, secureTextEntry, keyboardType, onFocus } = this.props
         const { defaultTextFieldStyle } = styles
         const { selectedIndex, digits } = this.state
         return (
@@ -188,9 +190,9 @@ export default class OTPInputView extends Component {
                     }}
                     onKeyPress={({ nativeEvent: { key } }) => { this.handleKeyPressTextInput(index, key) }}
                     value={digits[index]}
-                    keyboardType="number-pad"
                     onFocus={onFocus}
-                    textContentType= {isAutoFillSupported ? "oneTimeCode" : "none"}
+                    keyboardType={keyboardType}
+                    textContentType={isAutoFillSupported ? "oneTimeCode" : "none"}
                     key={index}
                     selectionColor="#00000000"
                     secureTextEntry={secureTextEntry}
