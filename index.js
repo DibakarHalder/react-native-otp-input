@@ -14,6 +14,7 @@ export default class OTPInputView extends Component {
         autoFocusOnLoad: PropTypes.bool,
         code: PropTypes.string,
         secureTextEntry: PropTypes.bool,
+        onFocus: PropTypes.func,
         keyboardType: PropTypes.string,
     }
 
@@ -175,7 +176,7 @@ export default class OTPInputView extends Component {
     }
 
     renderOneInputField = (_, index) => {
-        const { codeInputFieldStyle, codeInputHighlightStyle, secureTextEntry, keyboardType } = this.props
+        const { codeInputFieldStyle, codeInputHighlightStyle, secureTextEntry, keyboardType, onFocus } = this.props
         const { defaultTextFieldStyle } = styles
         const { selectedIndex, digits } = this.state
         return (
@@ -189,6 +190,7 @@ export default class OTPInputView extends Component {
                     }}
                     onKeyPress={({ nativeEvent: { key } }) => { this.handleKeyPressTextInput(index, key) }}
                     value={digits[index]}
+                    onFocus={onFocus}
                     keyboardType={keyboardType}
                     textContentType={isAutoFillSupported ? "oneTimeCode" : "none"}
                     key={index}
